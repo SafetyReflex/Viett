@@ -4,6 +4,13 @@
         "image": "https://ireland.apollo.olxcdn.com/v1/files/7aizoir643a03-UA/image;s=750x1000",
         "desc": "FW23",
         "price": 45800,
+        "stock": 1
+    },
+    {
+        "title": "ERD Jacket",
+        "image": "https://img.gem.app/1448621612/1f/1738909172/rick-owens-rick-owens-drkshdw-rick-owens-wrap.jpg",
+        "desc": "Rick Owens Drkshdw",
+        "price": 9300,
         "stock": 2
     }
 ]
