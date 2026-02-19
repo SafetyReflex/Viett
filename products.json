@@ -1,0 +1,16 @@
+[
+    {
+        "title": "ERD Jacket",
+        "image": "https://ireland.apollo.olxcdn.com/v1/files/7aizoir643a03-UA/image;s=750x1000",
+        "desc": "FW23",
+        "price": 45800,
+        "stock": 2
+    },
+    {
+        "title": "Shadow Knit",
+        "image": "https://images.unsplash.com/photo-1618354691552-1205a225f9d9?w=800",
+        "desc": "Кашемировый свитер с высоким горлом, глубокий чёрный",
+        "price": 17900,
+        "stock": 9
+    }
+]

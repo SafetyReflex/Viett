@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Viett — Dark Luxury</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0f0f0f;
+            --text: #e0e0e0;
+            --muted: #888;
+            --accent: #c9a96e;
+            --border: #222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 2.5rem 6% 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            transition: padding .4s;
+        }
+
+        header.scrolled {
+            padding: 1.6rem 6% 1.2rem;
+        }
+
+        .logo img {
+            height: 88px;
+            width: auto;
+        }
+
+        nav {
+            display: flex;
+            gap: 3.5rem;
+        }
+
+        nav a {
+            color: var(--muted);
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+            transition: color .3s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: white;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5%;
+            background: linear-gradient(#0a0a0a, #111);
+        }
+
+        .hero h1 {
+            font-size: clamp(5rem, 12vw, 12rem);
+            font-weight: 300;
+            letter-spacing: -3px;
+            line-height: .9;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 2rem auto 3rem;
+        }
+
+        .btn {
+            padding: 1rem 3rem;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            background: transparent;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: .4s;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: black;
+        }
+
+        .section {
+            padding: 14vh 6% 18vh;
+        }
+
+        h2.section-title {
+            text-align: center;
+            font-size: 4rem;
+            font-weight: 300;
+            margin-bottom: 10vh;
+        }
+
+        #products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 3rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all .9s ease-out;
+        }
+
+        .product.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            background: #111;
+            transition: transform 1.2s;
+        }
+
+        .product:hover img {
+            transform: scale(1.06);
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            margin: 1rem 0 .5rem;
+            text-align: center;
+        }
+
+        .product-desc {
+            font-size: .95rem;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 1.2rem;
+        }
+
+        #status {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 6rem 0;
+            color: var(--muted);
+            font-size: 1.3rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 6rem 0 4rem;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="header">
+        <div class="logo"><img src="viett.webp" alt="Viett"></div>
+        <nav>
+            <a href="#shop" class="active">Коллекция</a>
+            <a href="#">О бренде</a>
+            <a href="#">Контакты</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>VIETT</h1>
+            <p>Тёмная роскошь. Чистые линии. Без компромиссов.</p>
+            <button class="btn" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Смотреть
+                коллекцию</button>
+        </div>
+    </section>
+
+    <section class="section" id="shop">
+        <h2 class="section-title">Коллекция</h2>
+        <div id="products">
+            <div id="status">Загрузка товаров...</div>
+        </div>
+    </section>
+
+    <footer>© 2025–2026 Viett. All rights reserved.</footer>
+
+    <script>
+        async function loadProducts() {
+            const container = document.getElementById('products');
+            const status = document.getElementById('status');
+
+            try {
+                const res = await fetch('products.json?_=' + Date.now());
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                const data = await res.json();
+                console.log('Товары загружены:', data);
+
+                container.innerHTML = '';
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    status.textContent = 'Коллекция пока пуста';
+                    return;
+                }
+
+                data.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'product';
+                    div.innerHTML = `
+        <img src="${item.image}" alt="${item.title}">
+        <div class="product-title">${item.title}</div>
+        <div class="product-desc">${item.desc || ''}</div>
+        <div class="product-price">${Number(item.price).toLocaleString()} ₽</div>
+        <button class="btn" onclick="window.open('https://t.me/royalruins','_blank')">Заказать</button>
+      `;
+                    container.appendChild(div);
+                });
+
+                setTimeout(() => document.querySelectorAll('.product').forEach((el, i) => {
+                    setTimeout(() => el.classList.add('visible'), i * 120);
+                }), 200);
+
+            } catch (err) {
+                console.error('Ошибка:', err);
+                status.textContent = 'Ошибка загрузки\nПроверь консоль (F12) и убедись, что сайт открыт через https://*.github.io/';
+                status.style.color = '#c55';
+                status.style.whiteSpace = 'pre-line';
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            document.getElementById('header').classList.toggle('scrolled', window.scrollY > 80);
+        });
+
+        loadProducts();
+    </script>
+</body>
+
+</html>
